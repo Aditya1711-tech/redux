@@ -1,0 +1,8 @@
+.cart{
+    background-color: rgb(201, 99, 99);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+    font-size: 30px;
+}
