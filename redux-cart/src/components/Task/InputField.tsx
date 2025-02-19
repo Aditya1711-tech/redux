@@ -2,30 +2,45 @@ import { useState } from "react";
 
 export interface InputFieldProps {
   value: string;
+  onChange: (newValue: string) => void;
   handleSave: () => void;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ value, handleSave }) => {
-  const [isEditiong, setIsEditing] = useState<boolean>(false);
+const InputField: React.FC<InputFieldProps> = ({ value, onChange, handleSave }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleClick = () => {
     setIsEditing(true);
   };
 
-  const hanldeCancle = () => {
+  const handleCancel = () => {
     setIsEditing(false);
   };
 
   return (
-    <div>
-      {isEditiong ? (
-        <input type="text" value={value} onChange={e => console.log(e)}/>
+    <div style={{ marginBottom: "1rem" }}>
+      {isEditing ? (
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+        />
       ) : (
-        <p onClick={handleClick}>{value}</p>
+        <p onClick={handleClick}>{value || "Click to edit"}</p>
       )}
-      {isEditiong && <button onClick={handleSave}>Save</button>}
-      {isEditiong && <button onClick={hanldeCancle}>Cancle</button>}
-      <i className="fa fa-hacker-news" aria-hidden="true"></i>
+      {isEditing && (
+        <>
+          <button
+            onClick={() => {
+              handleSave();
+              setIsEditing(false);
+            }}
+          >
+            Save
+          </button>
+          <button onClick={handleCancel}>Cancel</button>
+        </>
+      )}
     </div>
   );
 };
